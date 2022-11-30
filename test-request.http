@@ -1,0 +1,24 @@
+POST http://localhost:8080/api/process?title=process5
+Content-Type: application/json
+
+{}
+
+###
+
+DELETE http://localhost:8080/api/process?id=2
+
+###
+
+GET http://localhost:8080/api/process
+
+###
+
+PUT http://localhost:8080/api/process
+Content-Type: application/json
+
+{
+  "id": 1,
+  "title": "some new text"
+}
+
+###
