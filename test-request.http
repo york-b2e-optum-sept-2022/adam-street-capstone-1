@@ -1,7 +1,12 @@
-POST http://localhost:8080/api/process?title=process5
+POST http://localhost:8080/api/process
 Content-Type: application/json
 
-{}
+{
+  "title": "new test",
+  "stageList": [
+    {"text":  "some text"}
+  ]
+}
 
 ###
 

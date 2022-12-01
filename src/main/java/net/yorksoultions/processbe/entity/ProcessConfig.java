@@ -1,8 +1,8 @@
 package net.yorksoultions.processbe.entity;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.sun.istack.NotNull;
+
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class ProcessConfig {
@@ -12,6 +12,10 @@ public class ProcessConfig {
     private Long id;
 
     private String title;
+
+    // TODO - find out why we cannot have orphan removal set to true without error when updating a process
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Stage> stageList;
 
     public ProcessConfig() {}
     public ProcessConfig(String title) {
@@ -28,5 +32,22 @@ public class ProcessConfig {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Set<Stage> getStageList() {
+        return stageList;
+    }
+
+    public void setStageList(Set<Stage> stageList) {
+        this.stageList = stageList;
+    }
+
+    @Override
+    public String toString() {
+        return "ProcessConfig{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", stageList=" + stageList +
+                '}';
     }
 }
