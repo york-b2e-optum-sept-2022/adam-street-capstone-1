@@ -27,8 +27,6 @@ public class ProcessConfigService {
 
     public ProcessConfig create(ProcessConfig requestBody) {
 
-
-
         /*
              requestBody = {
                     id: null
@@ -106,7 +104,6 @@ public class ProcessConfigService {
         // 5. take each stage we just created and add that to the process entity
         // 6. save the process entity to the database
         // 7. return the saved process entity to the controller
-
 
 //        // STEP 1
 //        String processTitle = requestBody.getTitle();

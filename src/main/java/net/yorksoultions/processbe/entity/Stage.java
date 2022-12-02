@@ -1,6 +1,8 @@
 package net.yorksoultions.processbe.entity;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.*;
 import java.util.List;
@@ -30,10 +32,10 @@ public class Stage {
     }
 
     public Stage(String text, int index, int responseType, List<String> optionList) {
-        this.text = text;
-        this.index = index;
-        this.responseType = responseType;
-        this.optionList = optionList;
+        this.setText(text);
+        this.setIndex(index);
+        this.setResponseType(responseType);
+        this.setOptionList(optionList);
     }
 
     public Long getId() {
@@ -45,6 +47,10 @@ public class Stage {
     }
 
     public void setText(String text) {
+        if (text.length() == 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
         this.text = text;
     }
 
@@ -53,6 +59,9 @@ public class Stage {
     }
 
     public void setIndex(int index) {
+        if (index < 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
         this.index = index;
     }
 
@@ -61,6 +70,10 @@ public class Stage {
     }
 
     public void setResponseType(int responseType) {
+        if (responseType != 1 && responseType != 2 && responseType != 3) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
         this.responseType = responseType;
     }
 
@@ -69,6 +82,17 @@ public class Stage {
     }
 
     public void setOptionList(List<String> optionList) {
+
+        if (optionList == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
+        if (this.responseType == 3) {
+            if (optionList.size() == 0) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            }
+        }
+
         this.optionList = optionList;
     }
 }
