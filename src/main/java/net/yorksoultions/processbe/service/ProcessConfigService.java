@@ -27,6 +27,57 @@ public class ProcessConfigService {
 
     public ProcessConfig create(ProcessConfig requestBody) {
 
+
+
+        /*
+             requestBody = {
+                    id: null
+                    title: "some text",
+                    stageList: [
+                        {id: 2, text: "some text 3"}
+                        {id: 0, text: "some text 1"},
+                        {id: 1, text: "some text 2"}
+                    ]
+                }
+         */
+
+        ProcessConfig newProcess = new ProcessConfig(requestBody.getTitle());
+        newProcess.setStageList(requestBody.getStageList());
+
+        ProcessConfig savedProcess = this.processConfigRepository.save(newProcess);
+        return  savedProcess;
+
+        // requestBody -> is the data from the frontend (the thing that made the request)
+        /*
+                requestBody = {
+                    id: null
+                    title: "some text",
+                    stageList: [
+                        {id: 2, text: "some text 3"}
+                        {id: 0, text: "some text 1"},
+                        {id: 1, text: "some text 2"}
+                    ]
+                }
+
+                1. we need to create a row in the process table
+                {
+                    id: 100,
+                    title: "some text"
+                }
+
+                2. we need to create a row in the stage table for every stage in the process's stageList
+                {
+                    id: 100
+                    text: "some text"
+                    index: 1,
+                    responseType: 3
+                    optionList: ["option 1", "option 2", "option 3" ]
+                }
+
+
+
+         */
+
         // we need to create a process
 
         // the requestBody is just the data that comes from the frontend
@@ -57,44 +108,55 @@ public class ProcessConfigService {
         // 7. return the saved process entity to the controller
 
 
-        // STEP 1
-        String processTitle = requestBody.getTitle();
-        ProcessConfig processEntity = new ProcessConfig(processTitle);
-
-        // STEP 2
-        Set<Stage> stageEntityArray = new HashSet<>();
-
-        // STEP 3
-        Set<Stage> requestBodyStageList = requestBody.getStageList();
-        if (requestBodyStageList == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
-
-        // STEP 4
-        for (Stage stage : requestBodyStageList) {
-            // STEP 4.a -> 4.b
-            String stageText = stage.getText();
-            int stageIndex = stage.getIndex();
-            int responseType = stage.getResponseType();
-            List<String> optionList = stage.getOptionList();
-
-            Stage newStage = new Stage(stageText, stageIndex, responseType, optionList);
-
-            // STEP 4.c (this gives us the entity WITH the id)
-            Stage savedStage = this.stageRepository.save(newStage);
-
-            // STEP 4.d
-            stageEntityArray.add(savedStage);
-        }
-
-        // STEP 5
-        processEntity.setStageList(stageEntityArray);
-
-        // STEP 6
-        ProcessConfig savedProcessConfig = processConfigRepository.save(processEntity);
-
-        // STEP 7
-        return  savedProcessConfig;
+//        // STEP 1
+//        String processTitle = requestBody.getTitle();
+//        ProcessConfig processEntity = new ProcessConfig(processTitle);
+//
+//
+//        // STEP 2
+//        Set<Stage> stageEntityArray = new HashSet<>();
+//
+//        // STEP 3
+//        Set<Stage> requestBodyStageList = requestBody.getStageList();
+//        if (requestBodyStageList == null) {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+//        }
+//
+//        // STEP 4
+//
+//        /*
+//         [
+//                        {id: 2, text: "some text 3", index: 0, responseType: 3, optionList: ["1", "2", "3"]}
+//                        {id: 0, text: "some text 1", index: 2, responseType: 1, optionList: []},
+//                        {id: 1, text: "some text 2", index: 3, responseType: 2, optionList: []}
+//          ]
+//         */
+//
+//
+//        for (Stage stage : requestBodyStageList) {
+//            // STEP 4.a -> 4.b
+//            String stageText = stage.getText();
+//            int stageIndex = stage.getIndex();
+//            int responseType = stage.getResponseType();
+//            List<String> optionList = stage.getOptionList();
+//
+//            Stage newStage = new Stage(stageText, stageIndex, responseType, optionList);
+//
+//            // STEP 4.c (this gives us the entity WITH the id)
+//            Stage savedStage = this.stageRepository.save(newStage);
+//
+//            // STEP 4.d
+//            stageEntityArray.add(savedStage);
+//        }
+//
+//        // STEP 5
+//        processEntity.setStageList(stageEntityArray);
+//
+//        // STEP 6
+//        ProcessConfig savedProcessConfig = processConfigRepository.save(processEntity);
+//
+//        // STEP 7
+//        return  savedProcessConfig;
     }
 
     public void delete(Long id) {

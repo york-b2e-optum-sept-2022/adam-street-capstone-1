@@ -1,5 +1,7 @@
 package net.yorksoultions.processbe.entity;
 
+import org.springframework.lang.NonNull;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
@@ -22,6 +24,7 @@ public class Stage {
 
     @ElementCollection
     private List<String> optionList;
+    // ["option 1", "option 2", "option 3"]
 
     public Stage() {
     }
