@@ -22,18 +22,16 @@ public class Stage {
     // 3 -> multiple choice
     private int responseType;
 
-    @ElementCollection
-    private List<String> optionList;
-    // ["option 1", "option 2", "option 3"]
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<StageOptionEntity> optionList;
 
     public Stage() {
     }
 
-    public Stage(String text, int index, int responseType, List<String> optionList) {
+    public Stage(String text, int index, int responseType) {
         this.text = text;
         this.index = index;
         this.responseType = responseType;
-        this.optionList = optionList;
     }
 
     public Long getId() {
@@ -64,11 +62,11 @@ public class Stage {
         this.responseType = responseType;
     }
 
-    public List<String> getOptionList() {
+    public List<StageOptionEntity> getOptionList() {
         return optionList;
     }
 
-    public void setOptionList(List<String> optionList) {
+    public void setOptionList(List<StageOptionEntity> optionList) {
         this.optionList = optionList;
     }
 }

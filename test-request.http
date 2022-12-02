@@ -2,15 +2,45 @@ POST http://localhost:8080/api/process
 Content-Type: application/json
 
 {
-  "title": "new test",
+  "title": "new process",
   "stageList": [
-    {"text":  "some text"}
+    {
+      "text": "1",
+      "index": 0,
+      "responseType": 1,
+      "optionList": []
+    },
+    {
+      "text": "2",
+      "index": 1,
+      "responseType": "2",
+      "optionList": []
+    },
+    {
+      "text": "3",
+      "index": 2,
+      "responseType": "3",
+      "optionList": [
+        {
+          "text": "option 1",
+          "index": 0
+        },
+        {
+          "text": "option 2",
+          "index": 1
+        },
+        {
+          "text": "option 3",
+          "index": 2
+        }
+      ]
+    }
   ]
 }
 
 ###
 
-DELETE http://localhost:8080/api/process?id=2
+DELETE http://localhost:8080/api/process?id=1
 
 ###
 
@@ -23,7 +53,38 @@ Content-Type: application/json
 
 {
   "id": 1,
-  "title": "some new text"
+  "title": "new new process",
+  "stageList": [
+    {
+      "text": "new stage",
+      "index": 3,
+      "responseType": 3,
+      "optionList": [
+        {
+          "text": "new option 1",
+          "index": 0
+        },
+        {
+          "text": "new option 2",
+          "index": 1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "stage 2",
+      "index": 1,
+      "responseType": 2,
+      "optionList": []
+    },
+    {
+      "id": 3,
+      "text": "stage 1",
+      "index": 0,
+      "responseType": 1,
+      "optionList": []
+    }
+  ]
 }
 
 ###

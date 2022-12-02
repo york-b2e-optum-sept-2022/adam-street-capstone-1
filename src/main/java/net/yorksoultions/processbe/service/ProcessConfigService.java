@@ -43,9 +43,8 @@ public class ProcessConfigService {
 
         ProcessConfig newProcess = new ProcessConfig(requestBody.getTitle());
         newProcess.setStageList(requestBody.getStageList());
-
         ProcessConfig savedProcess = this.processConfigRepository.save(newProcess);
-        return  savedProcess;
+        return savedProcess;
 
         // requestBody -> is the data from the frontend (the thing that made the request)
         /*
