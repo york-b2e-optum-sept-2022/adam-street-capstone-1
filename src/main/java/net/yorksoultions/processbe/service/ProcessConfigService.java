@@ -1,18 +1,13 @@
 package net.yorksoultions.processbe.service;
 
 import net.yorksoultions.processbe.entity.ProcessConfig;
-import net.yorksoultions.processbe.entity.Stage;
 import net.yorksoultions.processbe.repository.ProcessConfigRepository;
 import net.yorksoultions.processbe.repository.StageRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class ProcessConfigService {
@@ -43,7 +38,7 @@ public class ProcessConfigService {
         newProcess.setStageList(requestBody.getStageList());
 
         ProcessConfig savedProcess = this.processConfigRepository.save(newProcess);
-        return  savedProcess;
+        return savedProcess;
 
         // requestBody -> is the data from the frontend (the thing that made the request)
         /*
@@ -196,8 +191,46 @@ public class ProcessConfigService {
         String newTitle = requestBody.getTitle();
         processEntity.setTitle(newTitle);
 
-        processEntity.setStageList(requestBody.getStageList());
 
+        // HOW TO FIX
+        /*
+                A collection with cascade=”all-delete-orphan”
+                was no longer referenced by the owning entity instance: com.children
+         */
+
+        // OLD CODE
+        /*
+            processEntity.setStageList(requestBody.getStageList());
+        */
+
+        // NEW CODE
+        /*
+
+           // step 1 -> clear existing children list so that they are removed from database
+            processEntity.getStageList().clear();
+           // step 2 -> add the new children list created above to the existing list
+            processEntity.getStageList().addAll(requestBody.getStageList());
+
+         */
+
+        // REASON
+        /*
+            in the old code we are REPLACING the old array with an entirety new array.
+            Remember that an array just like an object is stored in a location in memory and when you replace the
+            existing array you are using a new place in memory. This causes an issues for spring boot specifically
+            with orphan removal due to how the system works internally.
+         */
+
+        // SOLUTION
+        /*
+                We can fix this issue by not creating a new array and therefor changing the location in memory the
+                list of stages is stored, but by keeping the same array object and just changing the items its holding.
+
+                so we first clear the existing content WITHOUT deleting or changing the array object itself. (step 1)
+                then we fill the SAME array object with its new values (step 2)
+         */
+
+        processEntity.setStageList(requestBody.getStageList());
         ProcessConfig savedProcessConfig = this.processConfigRepository.save(processEntity);
 
         return savedProcessConfig;

@@ -1,12 +1,10 @@
 package net.yorksoultions.processbe.entity;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.lang.NonNull;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 public class Stage {
@@ -24,8 +22,8 @@ public class Stage {
     // 3 -> multiple choice
     private int responseType;
 
-    @ElementCollection
-    private List<String> optionList;
+//    @ElementCollection
+//    private List<String> optionList;
     // ["option 1", "option 2", "option 3"]
 
     public Stage() {
@@ -35,7 +33,7 @@ public class Stage {
         this.setText(text);
         this.setIndex(index);
         this.setResponseType(responseType);
-        this.setOptionList(optionList);
+//        this.setOptionList(optionList);
     }
 
     public Long getId() {
@@ -77,22 +75,22 @@ public class Stage {
         this.responseType = responseType;
     }
 
-    public List<String> getOptionList() {
-        return optionList;
-    }
+//    public List<String> getOptionList() {
+//        return optionList;
+//    }
 
-    public void setOptionList(List<String> optionList) {
-
-        if (optionList == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
-
-        if (this.responseType == 3) {
-            if (optionList.size() == 0) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-            }
-        }
-
-        this.optionList = optionList;
-    }
+//    public void setOptionList(List<String> optionList) {
+//
+//        if (optionList == null) {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+//        }
+//
+//        if (this.responseType == 3) {
+//            if (optionList.size() == 0) {
+//                throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+//            }
+//        }
+//
+//        this.optionList = optionList;
+//    }
 }
